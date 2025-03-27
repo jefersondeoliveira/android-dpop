@@ -1,7 +1,7 @@
 package com.gihub.jefersondeoliveira.dpop.dpop
 
-import java.security.KeyPair
-import java.security.KeyPairGenerator
+import com.gihub.jefersondeoliveira.dpop.dpop.JWKUtil.createJWK
+import com.gihub.jefersondeoliveira.dpop.dpop.KeyGeneratorUtil.generateKeyPair
 import java.security.Signature
 import java.security.interfaces.RSAPublicKey
 import java.util.Date
@@ -30,18 +30,6 @@ object DpopGenerate {
 
         val signatureEncoded = signature.sign().toBase64()
         return "$signingInput.$signatureEncoded"
-    }
-
-    private fun createJWK(publicKey: RSAPublicKey): String {
-        val modulus = publicKey.modulus.toUnsignedByteArray().toBase64()
-        val exponent = publicKey.publicExponent.toByteArray().toBase64()
-        return """{"kty":"RSA","n":"$modulus","e":"$exponent"}"""
-    }
-
-    private fun generateKeyPair(): KeyPair {
-        val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
-        keyPairGenerator.initialize(2048)
-        return keyPairGenerator.generateKeyPair()
     }
 
 }
